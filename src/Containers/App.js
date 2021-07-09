@@ -2,7 +2,7 @@ import React , {Component} from 'react';
 import CardList from '../Components/CardList'
 import SearchBox from '../Components/SearchBox';
 import Scroll from '../Components/Scroll';
-
+import ErrorBoundary from '../Components/ErrorBoundry';
 class App extends Component
 {
   constructor()
@@ -42,7 +42,9 @@ render(){
       <h1>MYFRIENDS</h1>
       <SearchBox searchname = {this.onsearchnames}/>
       <Scroll>
-        <CardList friend={filternames}/>
+        <ErrorBoundary>
+          <CardList friend={filternames}/>
+        </ErrorBoundary>
       </Scroll>
     </div>
   );
