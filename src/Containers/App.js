@@ -1,47 +1,58 @@
-//Upgrading cproject with hooks
-import React , {Component} from 'react';
+//Upgrading project with hooks
+import React , { useState , useEffect} from 'react';
 import CardList from '../Components/CardList'
 import SearchBox from '../Components/SearchBox';
 import Scroll from '../Components/Scroll';
 import ErrorBoundary from '../Components/ErrorBoundry';
-class App extends Component
+function App()
 {
-  constructor()
-  {
-    super()
-    this.state=
-    {
-      friend : [],
-      searchfield:''
-    }
-  }
-  onsearchnames=(event)=>{
-    this.setState({searchfield : event.target.value})
+ 
+  // constructor()
+  // {
+  //   super()
+  //   this.state=
+  //   {
+  //     friend : [],
+  //     searchfield:''
+  //   }
+  // }
+   const [friend, setfriend] = useState([]);
+   const [searchfield, setsearchfield] = useState("");
+  const onsearchnames=(event)=>{
+    setsearchfield(event.target.value)
     //console.log(filternames);
   }
 
-  componentDidMount()
-  {
-    fetch('https://jsonplaceholder.typicode.com/users').then(Response=>{
+  // componentDidMount()
+  // {
+  //   fetch('https://jsonplaceholder.typicode.com/users').then(Response=>{
+  //     return Response.json();
+  //   }).then(users=>
+  //     {
+  //       this.setState({friend:users})
+  //     })
+  // }
+  useEffect(() => {
+   fetch('https://jsonplaceholder.typicode.com/users').then(Response=>{
       return Response.json();
     }).then(users=>
       {
-        this.setState({friend:users})
+        setfriend(users)
       })
-  }
+  },[])
 
-render(){
-    const filternames = this.state.friend.filter(frien=>{
-      return frien.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
+
+    const filternames = friend.filter(frien=>{
+      return frien.name.toLowerCase().includes(searchfield.toLowerCase());
     })
-    if(this.state.friend.lenght===0)
+    if(friend.lenght===0)
     {
       return <h1>Loading...</h1>
     }
   return(
     <div className='tc'>
       <h1>MYFRIENDS</h1>
-      <SearchBox searchname = {this.onsearchnames}/>
+      <SearchBox searchname = {onsearchnames}/>
       <Scroll>
         <ErrorBoundary>
           <CardList friend={filternames}/>
@@ -49,7 +60,6 @@ render(){
       </Scroll>
     </div>
   );
-}
 
 }
 
