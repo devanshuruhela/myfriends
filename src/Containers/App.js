@@ -4,7 +4,10 @@ import CardList from '../Components/CardList'
 import SearchBox from '../Components/SearchBox';
 import Scroll from '../Components/Scroll';
 import ErrorBoundary from '../Components/ErrorBoundry';
-function App()
+import {setsearchfield} from '../actions';
+import {connect} from 'react-redux';
+
+function App({store})
 {
  
   // constructor()
@@ -32,14 +35,16 @@ function App()
   //       this.setState({friend:users})
   //     })
   // }
+
   useEffect(() => {
+    console.log(store.getState())
    fetch('https://jsonplaceholder.typicode.com/users').then(Response=>{
       return Response.json();
     }).then(users=>
       {
         setfriend(users)
       })
-  },[])
+  },[store])
 
 
     const filternames = friend.filter(frien=>{
@@ -60,7 +65,6 @@ function App()
       </Scroll>
     </div>
   );
-
 }
 
-export default App;
+export default connect()(App);
